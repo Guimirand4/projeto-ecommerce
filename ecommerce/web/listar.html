@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Lista de Usuários</h2>
+
+    <table id="usuariosTable">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Grupo</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os usuários serão carregados aqui via AJAX -->
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h2>Editar Usuário</h2>
+    <form method="post" action="salvar_edicao.jsp" id="formEditar">
+        <input type="hidden" name="id" id="id">
+        <p><label for="nome">Nome:</label><input type="text" name="nome" id="nome" required></p>
+        <p><label for="email">Email:</label><input type="email" name="email" id="email" required></p>
+        <p><label for="grupo">Grupo:</label>
+            <select name="grupo" id="grupo" required>
+                <option value="admin">Admin</option>
+                <option value="estoquista">Estoquista</option>
+            </select>
+        </p>
+        <p><label for="status">Status:</label>
+            <select name="status" id="status" required>
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>
+            </select>
+        </p>
+        <p><input type="submit" value="Salvar Alterações"></p>
+    </form>
+
+    <script>
+        // Função para carregar os usuários via AJAX
+        function carregarUsuarios() {
+            fetch('listar_usuarios.jsp')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#usuariosTable tbody').innerHTML = data;
+                })
+                .catch(error => console.error('Erro ao carregar os usuários:', error));
+        }
+
+        // Função para preencher o formulário com os dados do usuário
+        function editarUsuario(id, nome, email, grupo) {
+            document.getElementById("id").value = id;
+            document.getElementById("nome").value = nome;
+            document.getElementById("email").value = email;
+            document.getElementById("grupo").value = grupo;
+        }
+
+        // Função para alterar o status do usuário (Ativar/Desativar)
+        function alterarStatus(id, status) {
+            if (confirm("Tem certeza que deseja alterar o status do usuário?")) {
+                window.location.href = "alterar_status.jsp?id=" + id + "&status=" + status;
+            }
+        }
+
+        // Carregar os usuários ao carregar a página
+        window.onload = carregarUsuarios;
+    </script>
+</body>
+</html>

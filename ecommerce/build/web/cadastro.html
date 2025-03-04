@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Cadastro</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+    function validarCPF(cpf) {
+        cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+        let soma = 0, resto;
+        for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf[9])) return false;
+
+        soma = 0;
+        for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        return resto === parseInt(cpf[10]);
+    }
+
+    function validarFormulario() {
+        var senha = document.getElementById("senha").value;
+        var confirmarSenha = document.getElementById("confirmar_senha").value;
+        var cpf = document.getElementById("cpf").value;
+
+        if (senha !== confirmarSenha) {
+            alert("As senhas não coincidem. Digite novamente.");
+            return false;
+        }
+
+        if (!validarCPF(cpf)) {
+            alert("CPF inválido. Digite um CPF válido.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+    </head>
+    <body>
+        <form method="post" action="salvar_usuario.jsp" onsubmit="return validarSenha()">
+            
+            <p>
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" required>
+            </p>
+
+            <p>
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" id="nome" required>
+            </p>
+
+            <p>
+                <label for="cpf">CPF:</label>
+                <input type="text" name="cpf" id="cpf" required>
+            </p>
+
+            <p>
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" id="senha" required>
+            </p>
+
+            <p>
+                <label for="confirmar_senha">Confirmar Senha:</label>
+                <input type="password" name="confirmar_senha" id="confirmar_senha" required>
+            </p>
+
+            <p>
+                <label for="grupo">Grupo:</label>
+                <select name="grupo" id="grupo" required>
+                    <option value="admin">Admin</option>
+                    <option value="estoquista">Estoquista</option>
+                </select>
+            </p>
+
+            <p>
+                <input type="submit" value="Salvar">
+            </p>
+            
+        </form>
+    </body>
+</html>

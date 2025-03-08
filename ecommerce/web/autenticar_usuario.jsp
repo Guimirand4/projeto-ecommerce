@@ -11,15 +11,18 @@
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
 
-        String url = "jdbc:sqlite:" + application.getRealPath("/WEB-INF/ecommerce.sqlite");
+     String url = "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514";
+        String user = "sql10766514";
+        String password = "swipjfdGjA";
+
         Connection conecta = null;
         PreparedStatement st = null;
         ResultSet rs = null;
 
         try {
-            Class.forName("org.sqlite.JDBC");
-            conecta = DriverManager.getConnection(url);
-
+            // Carrega o driver do MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
+             conecta = DriverManager.getConnection(url, user, password);
             // Buscar o usuário pelo email
             String sql = "SELECT senha, grupo FROM usuarios WHERE email = ?";
             st = conecta.prepareStatement(sql);

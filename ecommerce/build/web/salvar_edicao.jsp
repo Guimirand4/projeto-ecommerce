@@ -16,14 +16,19 @@
         String status = request.getParameter("status");
 
         // Conexão com o banco de dados
-        String url = "jdbc:sqlite:" + application.getRealPath("/WEB-INF/ecommerce.sqlite");
+        String url = "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514";
+        String user = "sql10766514";
+        String password = "swipjfdGjA";
+
         Connection conecta = null;
         PreparedStatement st = null;
+        ResultSet rs = null;
 
         try {
-            // Conectar ao banco de dados
-            Class.forName("org.sqlite.JDBC");
-            conecta = DriverManager.getConnection(url);
+            // Carrega o driver do MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+             conecta = DriverManager.getConnection(url, user, password);
 
             // SQL para atualizar os dados do usuário (não altera senha nem CPF)
             String sql = "UPDATE usuarios SET nome = ?, email = ?, grupo = ?, status = ? WHERE id = ?";

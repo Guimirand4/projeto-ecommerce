@@ -12,13 +12,19 @@
         int id = Integer.parseInt(request.getParameter("id"));
         int status = Integer.parseInt(request.getParameter("status"));
 
-        String url = "jdbc:sqlite:" + application.getRealPath("/WEB-INF/ecommerce.sqlite");
+        String url = "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514";
+        String user = "sql10766514";
+        String password = "swipjfdGjA";
+
         Connection conecta = null;
         PreparedStatement st = null;
+        ResultSet rs = null;
 
         try {
-            Class.forName("org.sqlite.JDBC");
-            conecta = DriverManager.getConnection(url);
+            // Carrega o driver do MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+             conecta = DriverManager.getConnection(url, user, password);
 
             // Atualiza o status do usuário
             String sql = "UPDATE usuarios SET status = ? WHERE id = ?";

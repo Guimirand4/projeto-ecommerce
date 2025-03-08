@@ -1,18 +1,29 @@
 <%@page import="java.sql.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String url = "jdbc:sqlite:" + application.getRealPath("/WEB-INF/ecommerce.sqlite");
+    String url = "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514";
+    String user = "sql10766514";
+    String password = "swipjfdGjA";
+
     Connection conecta = null;
     PreparedStatement st = null;
     ResultSet rs = null;
 
     try {
-        Class.forName("org.sqlite.JDBC");
-        conecta = DriverManager.getConnection(url);
+        // Carregar o driver do MySQL
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // Estabelecer a conexão
+        conecta = DriverManager.getConnection(url, user, password);
+
+        // Consulta SQL para selecionar os usuários
         String sql = "SELECT id, nome, email, grupo, status FROM usuarios";
         st = conecta.prepareStatement(sql);
+
+        // Executar a consulta e obter os resultados
         rs = st.executeQuery();
 
+        // Iterar sobre os resultados
         while (rs.next()) {
             int id = rs.getInt("id");
             String nome = rs.getString("nome");
@@ -37,6 +48,7 @@
     } catch (Exception e) {
         out.println("<p>Erro: " + e.getMessage() + "</p>");
     } finally {
+        // Fechar os recursos
         if (rs != null) try { rs.close(); } catch (SQLException e) {}
         if (st != null) try { st.close(); } catch (SQLException e) {}
         if (conecta != null) try { conecta.close(); } catch (SQLException e) {}

@@ -23,15 +23,22 @@
         // Hash da senha usando Bcrypt
         String senhaHash = BCrypt.hashpw(senha, BCrypt.gensalt());
 
-        String url = "jdbc:sqlite:" + application.getRealPath("/WEB-INF/ecommerce.sqlite");
+        // Configuração de conexão com o banco de dados MySQL
+        String url = "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514";
+        String user = "sql10766514";
+        String password = "swipjfdGjA";
+
         Connection conecta = null;
         PreparedStatement st = null;
         ResultSet rs = null;
 
         try {
-            Class.forName("org.sqlite.JDBC");
-            conecta = DriverManager.getConnection(url);
-            conecta.setAutoCommit(false);
+            // Carrega o driver do MySQL
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Estabelece a conexão com o banco de dados
+            conecta = DriverManager.getConnection(url, user, password);
+           
 
             // Verificar se o CPF já existe no banco de dados
             String sqlCheck = "SELECT COUNT(*) FROM usuarios WHERE cpf = ?";
@@ -64,12 +71,25 @@
 
             if (resultado > 0) {
                 out.println("<p style='color: green;'>Usuário cadastrado com sucesso!</p>");
+                
+                // Exibir os usuários cadastrados
+                String sqlSelect = "SELECT * FROM usuarios";
+                Statement stSelect = conecta.createStatement();
+                ResultSet rsSelect = stSelect.executeQuery(sqlSelect);
+                
+                while (rsSelect.next()) {
+                    out.println("<p>" + rsSelect.getString("nome") + " - " + rsSelect.getString("cpf") + "</p>");
+                }
+                
+                rsSelect.close();
+                stSelect.close();
             } else {
                 out.println("<p style='color: red;'>Erro ao cadastrar usuário.</p>");
             }
         } catch (Exception e) {
             out.println("<p style='color: red;'>Erro: " + e.getMessage() + "</p>");
         } finally {
+            // Fechar conexões
             if (rs != null) try { rs.close(); } catch (SQLException e) {}
             if (st != null) try { st.close(); } catch (SQLException e) {}
             if (conecta != null) try { conecta.close(); } catch (SQLException e) {}

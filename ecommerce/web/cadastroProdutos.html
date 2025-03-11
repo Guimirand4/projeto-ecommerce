@@ -1,126 +1,22 @@
+<form action="SalvarProdutoServlet" method="post" enctype="multipart/form-data">
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Cadastro de Produtos</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-            }
-            .form-container {
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                width: 300px;
-            }
-            .form-container h2 {
-                text-align: center;
-                margin-bottom: 20px;
-                color: #333;
-            }
-            .form-container label {
-                display: block;
-                margin-bottom: 5px;
-                color: #555;
-            }
-            .form-container input[type="text"],
-            .form-container input[type="number"],
-            .form-container textarea {
-                width: 100%;
-                padding: 8px;
-                margin-bottom: 15px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                font-size: 14px;
-            }
-            .form-container textarea {
-                resize: vertical;
-                height: 80px;
-            }
-            .form-container .file-upload {
-                margin-bottom: 15px;
-            }
-            .form-container .file-upload input[type="file"] {
-                display: none;
-            }
-            .form-container .file-upload label {
-                display: block;
-                padding: 8px;
-                background-color: #007bff;
-                color: #fff;
-                text-align: center;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            .form-container .file-upload label:hover {
-                background-color: #0056b3;
-            }
-            .form-container .buttons {
-                display: flex;
-                justify-content: space-between;
-            }
-            .form-container .buttons button {
-                padding: 10px 20px;
-                border: none;
-                border-radius: 4px;
-                font-size: 14px;
-                cursor: pointer;
-            }
-            .form-container .buttons button[type="submit"] {
-                background-color: #28a745;
-                color: #fff;
-            }
-            .form-container .buttons button[type="submit"]:hover {
-                background-color: #218838;
-            }
-            .form-container .buttons button[type="button"] {
-                background-color: #dc3545;
-                color: #fff;
-            }
-            .form-container .buttons button[type="button"]:hover {
-                background-color: #c82333;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="form-container">
-            <h2>CADASTRAR PRODUTO</h2>
-            <form method="post" action="salvar_produtos.jsp" enctype="multipart/form-data">
-                <label for="nome">NOME DO PRODUTO:</label>
-                <input type="text" id="nome" name="nome" required>
+    <label for="nome">Nome do Produto:</label>
+    <input type="text" id="nome" name="nome" required>
 
-                <label for="preco">PREÇO:</label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
+    <label for="preco">Preco:</label>
+    <input type="number" id="preco" name="preco" step="0.01" required>
 
-                <label for="estoque">EM ESTOQUE:</label>
-                <input type="number" id="quantidade" name="quantidade" required>
+    <label for="quantidade">Em Estoque:</label>
+    <input type="number" id="quantidade" name="quantidade" required>
 
-                <label for="descricao">DESCRIÇÃO DETALHADA:</label>
-                <textarea id="descricao" name="descricao" required></textarea>
+    <label for="descricao">Descricao:</label>
+    <textarea id="descricao" name="descricao" required></textarea>
 
-                <label for="avaliacao">AVALIAÇÃO:</label>
-                <input type="number" id="avaliacao" name="avaliacao" min="1" max="5" required>
+    <label for="avaliacao">Avaliacão:</label>
+    <input type="number" id="avaliacao" name="avaliacao" min="1" max="5" required>
 
-                <div class="file-upload">
-                    <label for="imagens">ADICIONAR IMAGENS DO PRODUTO</label>
-                    <input type="file" id="imagens" name="imagens" multiple accept="image/*">
-                </div>
+    <label for="imagem">Imagem do Produto:</label>
+    <input type="file" id="imagem" name="imagem" accept="image/*" required>
 
-                <div class="buttons">
-                    <button type="submit">SALVAR</button>
-                    <button type="button" onclick="window.location.href='listar_produtos.jsp'">CANCELAR</button>
-                </div>
-            </form>
-        </div>
-    </body>
-</html>
+    <button type="submit">Salvar</button>
+</form>

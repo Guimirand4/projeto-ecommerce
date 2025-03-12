@@ -31,30 +31,27 @@ public class ListarProdutosServlet extends HttpServlet {
                     "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514",
                     "sql10766514", "swipjfdGjA");
 
-            // Se não houver parâmetro de busca, traz todos os produtos
+            // Query para buscar produtos pelo nome
             String sql = "SELECT * FROM produtos WHERE nome LIKE ? ORDER BY id DESC";
             st = conn.prepareStatement(sql);
             st.setString(1, "%" + (busca != null ? busca : "") + "%");
             rs = st.executeQuery();
 
-            // Adicionar os produtos na lista
+            // Adicionar produtos na lista
             while (rs.next()) {
                 Produto produto = new Produto(
                         rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getInt("quantidade_estoque"),
-                        rs.getDouble("valor"),
-                        rs.getDouble("avaliacao"),
+                        rs.getDouble("preco"),
                         rs.getString("status")
                 );
                 produtos.add(produto);
             }
 
-            // Armazenar a lista de produtos na request
+            // Enviar a lista para a página JSP
             request.setAttribute("produtos", produtos);
-
-            // Enviar para o JSP
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/lista_produtos.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/lista_produtos.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,15 +65,4 @@ public class ListarProdutosServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-    }
-
-    private static class Produto {
-
-        public Produto() {
-        }
-
-        private Produto(int aInt, String string, int aInt0, double aDouble, double aDouble0, String string0) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-    }
-}
+    }}

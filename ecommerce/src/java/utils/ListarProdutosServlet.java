@@ -32,7 +32,7 @@ public class ListarProdutosServlet extends HttpServlet {
                     "sql10766514", "swipjfdGjA");
 
             // Query para buscar produtos pelo nome
-            String sql = "SELECT * FROM produtos WHERE nome LIKE ? ORDER BY id DESC";
+            String sql = "SELECT * FROM produtos WHERE nome LIKE ? ORDER BY nome DESC";
             st = conn.prepareStatement(sql);
             st.setString(1, "%" + (busca != null ? busca : "") + "%");
             rs = st.executeQuery();

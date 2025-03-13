@@ -52,6 +52,16 @@
         .search-container button i {
             color: white;
         }
+        .btn-novo-produto {
+            background-color: #28a745;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -85,7 +95,49 @@
         .btn-visualizar {
             background-color: #00A5A5;
         }
+        .btn-ativar-desativar {
+            background-color: #dc3545;
+        }
+        .btn-excluir {
+            background-color: #dc3545;
+        }
+        .btn-excluir:hover {
+            background-color: #c82333;
+        }
     </style>
+    <script>
+        function ativarDesativarProduto(id) {
+            if (confirm("Tem certeza que deseja alterar o status do produto?")) {
+                fetch('AtivarDesativarProdutoServlet?id=' + id, {
+                    method: 'POST'
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload(); // Recarrega a página para atualizar o status
+                    } else {
+                        alert("Erro ao alterar o status do produto.");
+                    }
+                }).catch(error => {
+                    console.error('Erro:', error);
+                });
+            }
+        }
+
+        function excluirProduto(id) {
+            if (confirm("Tem certeza que deseja excluir este produto?")) {
+                fetch('ExcluirProdutoServlet?id=' + id, {
+                    method: 'POST'
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload(); // Recarrega a página após a exclusão
+                    } else {
+                        alert("Erro ao excluir o produto.");
+                    }
+                }).catch(error => {
+                    console.error('Erro:', error);
+                });
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -96,6 +148,7 @@
                 <input type="text" name="busca" placeholder="Buscar por nome...">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
+            <a href="cadastroProdutos.html" class="btn-novo-produto">+ Novo Produto</a>
         </div>
 
         <table>
@@ -121,6 +174,10 @@
                             <td>
                                 <a href="alterar_produto.jsp?id=<%= produto.getId() %>" class="btn btn-alterar">Alterar</a>
                                 <a href="visualizar_produto.jsp?id=<%= produto.getId() %>" class="btn btn-visualizar">Visualizar</a>
+                                <button onclick="ativarDesativarProduto(<%= produto.getId() %>)" class="btn btn-ativar-desativar">
+                                    <%= produto.getStatus().equals("Ativo") ? "Desativar" : "Ativar" %>
+                                </button>
+                                <button onclick="excluirProduto(<%= produto.getId() %>)" class="btn btn-excluir">Excluir</button>
                             </td>
                         </tr>
                 <% }} else { %>

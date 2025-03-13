@@ -66,7 +66,7 @@ stProduto.setInt(6, 1); // 1 = Ativo
             stImagem.setBlob(2, fileContent); // Salva o arquivo como BLOB
             stImagem.executeUpdate();
 
-            response.sendRedirect("listadeprodutos.html");
+            response.sendRedirect("lista_produtos.jsp");
         } catch (Exception e) {
             response.getWriter().println("Erro ao cadastrar produto: " + e.getMessage());
         } finally {

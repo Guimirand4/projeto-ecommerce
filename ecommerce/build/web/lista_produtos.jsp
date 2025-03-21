@@ -177,7 +177,6 @@
                                 <button onclick="ativarDesativarProduto(<%= produto.getId() %>)" class="btn btn-ativar-desativar">
                                     <%= produto.getStatus().equals("Ativo") ? "Desativar" : "Ativar" %>
                                 </button>
-                                <button onclick="excluirProduto(<%= produto.getId() %>)" class="btn btn-excluir">Excluir</button>
                             </td>
                         </tr>
                 <% }} else { %>

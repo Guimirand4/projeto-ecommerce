@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.RequestDispatcher;
@@ -25,11 +24,8 @@ public class ListarProdutosServlet extends HttpServlet {
         List<Produto> produtos = new ArrayList<>();
 
         try {
-            // Conexão com o banco de dados
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514",
-                    "sql10766514", "swipjfdGjA");
+            // Conexão com o banco de dados utilizando a classe ConexaoDB
+            conn = ConexaoDB.getConnection();
 
             // Query para buscar produtos pelo nome
             String sql = "SELECT * FROM produtos WHERE nome LIKE ? ORDER BY nome DESC";
@@ -65,4 +61,5 @@ public class ListarProdutosServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-    }}
+    }
+}

@@ -107,6 +107,20 @@
         .btn-excluir:hover {
             background-color: #c82333;
         }
+        .btn-alterar { /* Para Ativar */
+    background-color: #28a745;
+}
+
+.btn-excluir { /* Para Inativar */
+    background-color: #dc3545;
+}
+
+
+
+.btn-excluir:hover {
+    background-color: #c82333; /* Cor um pouco mais escura */
+}
+
     </style>
 </head>
 <body>
@@ -144,10 +158,10 @@
                             <td>
                                 <a href="alterar_produto.jsp?id=<%= produto.getId() %>" class="btn btn-alterar">Alterar</a>
                                 <a href="visualizar_produto.jsp?id=<%= produto.getId() %>" class="btn btn-visualizar">Visualizar</a>
-                                <!-- Botão para alterar o status: se o produto está ativo (1) mostra "Inativar", caso contrário "Ativar" -->
-                         <a href="alterar_status_produto.jsp?id=<%= produto.getId() %>&status=<%= (produto.getStatus().equals("1") ? 0 : 1) %>" class="btn btn-ativar-desativar">
-    <%= (produto.getStatus().equals("1") ? "Inativar" : "Ativar") %>
-</a>
+     <a href="alterar_status_produto.jsp?id=<%= produto.getId() %>&status=<%= (produto.getStatus().equals("1") ? 0 : 1) %>" 
+       class="btn <%= (produto.getStatus().equals("1") ? "btn-excluir" : "btn-alterar") %>">
+        <%= (produto.getStatus().equals("1") ? "Inativar" : "Ativar") %>
+    </a>
 
                             </td>
                         </tr>

@@ -109,37 +109,7 @@
         }
     </style>
     <script>
-        function ativarDesativarProduto(id) {
-            if (confirm("Tem certeza que deseja alterar o status do produto?")) {
-                fetch('AtivarDesativarProdutoServlet?id=' + id, {
-                    method: 'POST'
-                }).then(response => {
-                    if (response.ok) {
-                        location.reload(); // Recarrega a página para atualizar o status
-                    } else {
-                        alert("Erro ao alterar o status do produto.");
-                    }
-                }).catch(error => {
-                    console.error('Erro:', error);
-                });
-            }
-        }
 
-        function excluirProduto(id) {
-            if (confirm("Tem certeza que deseja excluir este produto?")) {
-                fetch('ExcluirProdutoServlet?id=' + id, {
-                    method: 'POST'
-                }).then(response => {
-                    if (response.ok) {
-                        location.reload(); // Recarrega a página após a exclusão
-                    } else {
-                        alert("Erro ao excluir o produto.");
-                    }
-                }).catch(error => {
-                    console.error('Erro:', error);
-                });
-            }
-        }
 
         function alterarQuantidade(id) {
             var novaQuantidade = prompt("Digite a nova quantidade:");

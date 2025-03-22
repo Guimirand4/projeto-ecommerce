@@ -108,9 +108,6 @@
             background-color: #c82333;
         }
     </style>
-    <script>
-
-    </script>
 </head>
 <body>
     <div class="container">
@@ -147,6 +144,11 @@
                             <td>
                                 <a href="alterar_produto.jsp?id=<%= produto.getId() %>" class="btn btn-alterar">Alterar</a>
                                 <a href="visualizar_produto.jsp?id=<%= produto.getId() %>" class="btn btn-visualizar">Visualizar</a>
+                                <!-- Botão para alterar o status: se o produto está ativo (1) mostra "Inativar", caso contrário "Ativar" -->
+                         <a href="alterar_status_produto.jsp?id=<%= produto.getId() %>&status=<%= (produto.getStatus().equals("1") ? 0 : 1) %>" class="btn btn-ativar-desativar">
+    <%= (produto.getStatus().equals("1") ? "Inativar" : "Ativar") %>
+</a>
+
                             </td>
                         </tr>
                 <% }} else { %>

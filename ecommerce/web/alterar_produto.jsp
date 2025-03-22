@@ -1,7 +1,7 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
+<%@page import="utils.ConexaoDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -78,17 +78,13 @@
     <div class="container">
         <h1>Alterar Produto</h1>
         <%
-            // Conexão com o banco de dados
             Connection conecta = null;
             PreparedStatement st = null;
             ResultSet rs = null;
 
             try {
-                // Carregar o driver do MySQL
-                Class.forName("com.mysql.cj.jdbc.Driver");
-
-                // Conectar ao banco de dados
-                conecta = DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514", "sql10766514", "swipjfdGjA");
+                // Obter conexão utilizando a classe ConexaoDB
+                conecta = ConexaoDB.getConnection();
 
                 // Capturar o ID do produto passado como parâmetro
                 String id = request.getParameter("id");
@@ -129,7 +125,6 @@
             } catch (Exception e) {
                 out.print("Erro: " + e.getMessage());
             } finally {
-                // Fechar os recursos
                 if (rs != null) rs.close();
                 if (st != null) st.close();
                 if (conecta != null) conecta.close();

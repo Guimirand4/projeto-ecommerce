@@ -1,6 +1,6 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.DriverManager"%>
+<%@page import="utils.ConexaoDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -11,16 +11,13 @@
 </head>
 <body>
     <%
-        // Conexão com o banco de dados
+        // Conexão com o banco de dados usando a classe ConexaoDB
         Connection conecta = null;
         PreparedStatement st = null;
 
         try {
-            // Carregar o driver do MySQL
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Conectar ao banco de dados
-            conecta = DriverManager.getConnection("jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514", "sql10766514", "swipjfdGjA");
+            // Obter a conexão utilizando a classe ConexaoDB
+            conecta = ConexaoDB.getConnection();
 
             // Capturar os dados do formulário
             String id = request.getParameter("id");

@@ -2,7 +2,6 @@ package utils;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,11 +22,8 @@ public class AlterarQuantidadeServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             int quantidade = Integer.parseInt(request.getParameter("quantidade"));
 
-            // Conectar ao banco de dados
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://sql10.freesqldatabase.com:3306/sql10766514",
-                    "sql10766514", "swipjfdGjA");
+            // Conectar ao banco de dados usando a classe ConexaoDB
+            conn = ConexaoDB.getConnection();
 
             // Atualizar a quantidade do produto
             String sql = "UPDATE produtos SET quantidade_estoque = ? WHERE id = ?";

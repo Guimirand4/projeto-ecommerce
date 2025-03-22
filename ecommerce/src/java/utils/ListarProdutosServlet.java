@@ -27,10 +27,17 @@ public class ListarProdutosServlet extends HttpServlet {
             // Conexão com o banco de dados utilizando a classe ConexaoDB
             conn = ConexaoDB.getConnection();
 
-            // Query para buscar produtos pelo nome
-            String sql = "SELECT * FROM produtos WHERE nome LIKE ? ORDER BY nome DESC";
-            st = conn.prepareStatement(sql);
-            st.setString(1, "%" + (busca != null ? busca : "") + "%");
+            // Se o parâmetro busca for null ou vazio, busque todos os produtos
+            String sql;
+            if (busca != null && !busca.trim().isEmpty()) {
+                sql = "SELECT * FROM produtos WHERE nome LIKE ? ORDER BY nome DESC";
+                st = conn.prepareStatement(sql);
+                st.setString(1, "%" + busca + "%");
+            } else {
+                sql = "SELECT * FROM produtos ORDER BY nome DESC";
+                st = conn.prepareStatement(sql);
+            }
+
             rs = st.executeQuery();
 
             // Adicionar produtos na lista

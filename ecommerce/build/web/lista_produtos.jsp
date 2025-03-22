@@ -1,9 +1,12 @@
 <%@page import="utils.Produto"%>
-<%@page import="utils.ListarProdutosServlet"%>
-<%@ page import="java.util.List" %>
-
+<%@page import="java.util.List"%>
 <%
+    // Verificar se a lista de produtos já foi passada. Se não, redirecionar para o servlet.
     List<Produto> produtos = (List<Produto>) request.getAttribute("produtos");
+    if (produtos == null || produtos.isEmpty()) {
+        response.sendRedirect("ListarProdutosServlet");
+        return;
+    }
 %>
 
 <!DOCTYPE html>

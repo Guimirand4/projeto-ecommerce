@@ -36,7 +36,7 @@
             status = rsProd.getInt("status");
         }
 
-        // Consulta as imagens do produto (agora usando a coluna 'imagem')
+        // Consulta as imagens do produto (coluna 'imagem')
         String sqlImg = "SELECT imagem FROM produto_imagens WHERE produto_id = ?";
         psImg = con.prepareStatement(sqlImg);
         psImg.setInt(1, id);
@@ -59,34 +59,86 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Visualizar Produto</title>
+    <title>Detalhes do Produto</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Bundle com JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f9f9f9; margin: 20px; }
-        .produto { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .imagens img { margin: 10px; width: 200px; border: 1px solid #ddd; padding: 5px; }
+        body {
+            background-color: #f0f2f5;
+        }
+        .product-details {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        /* Tratamento para as imagens do carrossel */
+        .carousel-item img {
+            max-height: 350px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            margin: auto;
+        }
+        .btn-voltar {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="produto">
-        <h1><%= nome %></h1>
-        <p><strong>Descrição:</strong> <%= descricao %></p>
-        <p><strong>Preço:</strong> R$ <%= String.format("%.2f", preco) %></p>
-        <p><strong>Quantidade em Estoque:</strong> <%= quantidade %></p>
-        <p><strong>Avaliação:</strong> <%= avaliacao %></p>
-        <p><strong>Status:</strong> <%= (status == 1 ? "Ativo" : "Inativo") %></p>
-        
-        <hr>
-        <h2>Imagens do Produto</h2>
-        <div class="imagens">
-            <% 
-            // Exibe cada imagem recuperada
-            for (String img : imagens) { 
-            %>
-                <img src="data:image/jpeg;base64,<%= img %>" alt="Imagem do produto" />
-            <% } %>
-        </div>
-        <br>
-        <a href="ListarProdutosServlet">Voltar</a>
+    <div class="container mt-5">
+       <div class="row justify-content-center">
+            <div class="col-md-10">
+                <!-- Dados do Produto -->
+                <div class="product-details mb-4">
+                    <h1 class="mb-3"><%= nome %></h1>
+                    <p><strong>Descrição:</strong> <%= descricao %></p>
+                    <p><strong>Preço:</strong> R$ <%= String.format("%.2f", preco) %></p>
+                    <p><strong>Quantidade em Estoque:</strong> <%= quantidade %></p>
+                    <p><strong>Avaliação:</strong> <%= avaliacao %> / 5</p>
+                    <p><strong>Status:</strong> <%= (status == 1 ? "Ativo" : "Inativo") %></p>
+                </div>
+
+                <!-- Carrossel de Imagens -->
+                <div id="produtoCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <% for (int i = 0; i < imagens.size(); i++) { %>
+                            <button type="button" data-bs-target="#produtoCarousel" data-bs-slide-to="<%= i %>" class="<%= (i == 0 ? "active" : "") %>" aria-current="<%= (i == 0 ? "true" : "") %>" aria-label="Slide <%= (i + 1) %>"></button>
+                        <% } %>
+                    </div>
+                    <div class="carousel-inner">
+                        <% for (int i = 0; i < imagens.size(); i++) {
+                             String img = imagens.get(i);
+                        %>
+                            <div class="carousel-item <%= (i == 0 ? "active" : "") %>">
+                                <img src="data:image/jpeg;base64,<%= img %>" class="d-block w-100" alt="Imagem do produto">
+                            </div>
+                        <% } %>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#produtoCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#produtoCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Próximo</span>
+                    </button>
+                </div>
+
+                <!-- Botão Comprar desabilitado -->
+                <div class="mb-4">
+                    <button type="button" class="btn btn-primary" disabled>Comprar</button>
+                </div>
+
+                <!-- Botão Voltar -->
+                <div class="btn-voltar">
+                    <a href="ListarProdutosServlet" class="btn btn-secondary">Voltar</a>
+                </div>
+            </div>
+       </div>
     </div>
 </body>
 </html>

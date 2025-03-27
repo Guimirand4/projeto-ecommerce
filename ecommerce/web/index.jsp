@@ -1,8 +1,46 @@
 <%@page import="java.util.List"%>
 <%@page import="utils.Produto"%>
+<%@page import="java.sql.*, java.util.ArrayList"%>
+<%@page import="utils.ConexaoDB"%>
+
 <%
+    // Obtendo os produtos da requisição
     List<Produto> produtos = (List<Produto>) request.getAttribute("produtos");
+    
+    // Conexão com o banco de dados para obter imagens
+    Connection con = null;
+    PreparedStatement psImg = null;
+    ResultSet rsImg = null;
+
+    try {
+        con = ConexaoDB.getConnection();
+        
+        // Consulta para buscar as imagens do produto
+        String sqlImg = "SELECT imagem FROM produto_imagens WHERE produto_id = ?";
+        
+        // Para cada produto, buscar as imagens associadas
+        for (Produto produto : produtos) {
+            List<String> imagens = new ArrayList<>(); // Lista de imagens para o produto atual
+            
+            psImg = con.prepareStatement(sqlImg);
+            psImg.setInt(1, produto.getId());
+            rsImg = psImg.executeQuery();
+            
+            while (rsImg.next()) {
+                imagens.add(rsImg.getString("imagem")); // Adicionando as imagens à lista do produto
+            }
+            
+            produto.setImagens(imagens);  // Setando as imagens no produto
+        }
+    } catch (Exception e) {
+        out.println("Erro: " + e.getMessage());
+    } finally {
+        if (rsImg != null) try { rsImg.close(); } catch (SQLException ignore) {}
+        if (psImg != null) try { psImg.close(); } catch (SQLException ignore) {}
+        if (con != null) try { con.close(); } catch (SQLException ignore) {}
+    }
 %>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -153,21 +191,31 @@
             <div class="col-md-4 col-lg-3">
                 <div class="product-card card">
                     <div class="product-img-container">
-                        <img src="ObterImagemServlet?id=<%= produto.getId() %>" class="product-img" alt="<%= produto.getNome() %>">
+                        <% 
+                            List<String> imagens = produto.getImagens();
+                            if (imagens != null && !imagens.isEmpty()) { 
+                        %>
+                            <img src="data:image/jpeg;base64,<%= imagens.get(0) %>" class="product-img" alt="<%= produto.getNome() %>">
+                        <% 
+                            } else { 
+                        %>
+                            <img src="https://via.placeholder.com/150" class="product-img" alt="<%= produto.getNome() %>">
+                        <% 
+                            } 
+                        %>
                     </div>
-                        <div class="card-body">
-                            <h5 class="product-name"><%= produto.getNome()%></h5>
-                            <p class="product-price">R$ <%= String.format("%.2f", produto.getValor())%></p>
+                    <div class="card-body">
+                        <h5 class="product-name"><%= produto.getNome()%></h5>
+                        <p class="product-price">R$ <%= String.format("%.2f", produto.getValor())%></p>
 
-                            <!-- BOTÃO DE DETALHES AJUSTADO -->
-                            <a href="visualizar_produto_loja.jsp?id=<%= produto.getId()%>" class="btn btn-details">Ver Detalhes</a>
+                        <!-- BOTÃO DE DETALHES AJUSTADO -->
+                        <a href="visualizar_produto_loja.jsp?id=<%= produto.getId()%>" class="btn btn-details">Ver Detalhes</a>
 
-                            <!-- BOTÃO COMPRAR -->
-                            <button class="btn btn-buy" onclick="addToCart(<%= produto.getId()%>, '<%= produto.getNome()%>', <%= produto.getValor()%>, 1)">
-                                Comprar
-                            </button>
-                        </div>
-                    
+                        <!-- BOTÃO COMPRAR -->
+                        <button class="btn btn-buy" onclick="addToCart(<%= produto.getId()%>, '<%= produto.getNome()%>', <%= produto.getValor()%>, 1)">
+                            Comprar
+                        </button>
+                    </div>
                 </div>
             </div>
         <% }} else { %>

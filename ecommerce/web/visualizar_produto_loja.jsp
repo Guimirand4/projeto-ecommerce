@@ -128,17 +128,48 @@
                     </button>
                 </div>
 
-                <!-- Botão Comprar desabilitado -->
+                <!-- Botão Comprar com função addToCart -->
                 <div class="mb-4">
-                    <button type="button" class="btn btn-primary" >Comprar</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="addToCart(<%= id %>, '<%= nome %>', <%= preco %>, 1)">
+                        Comprar
+                    </button>
                 </div>
 
                 <!-- Botão Voltar -->
                 <div class="btn-voltar">
-                    <a href="ListarProdutosServlet" class="btn btn-secondary">Voltar</a>
+                    <a href="inicio" class="btn btn-secondary">Voltar</a>
                 </div>
             </div>
        </div>
     </div>
+
+    <!-- Funções JavaScript para o carrinho -->
+    <script>
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let count = 0;
+            cart.forEach(item => count += item.quantidade);
+            // Se houver um elemento para exibir a contagem do carrinho, atualize-o aqui
+            // Exemplo: document.getElementById('cart-count').textContent = count;
+        }
+
+        function addToCart(id, nome, preco, quantidade) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let produtoExistente = cart.find(item => item.id === id);
+
+            if (produtoExistente) {
+                produtoExistente.quantidade += quantidade;
+            } else {
+                cart.push({id, nome, preco, quantidade});
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('Produto adicionado ao carrinho!');
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
 </body>
 </html>

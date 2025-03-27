@@ -160,7 +160,7 @@
                             <p class="product-price">R$ <%= String.format("%.2f", produto.getValor())%></p>
 
                             <!-- BOTÃO DE DETALHES AJUSTADO -->
-                            <a href="visualizar_produto.jsp?id=<%= produto.getId()%>" class="btn btn-details">Ver Detalhes</a>
+                            <a href="visualizar_produto_loja.jsp?id=<%= produto.getId()%>" class="btn btn-details">Ver Detalhes</a>
 
                             <!-- BOTÃO COMPRAR -->
                             <button class="btn btn-buy" onclick="addToCart(<%= produto.getId()%>, '<%= produto.getNome()%>', <%= produto.getValor()%>, 1)">

@@ -45,7 +45,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Loja Virtual</title>
+    <title>McDonald's - Loja Virtual</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap + FontAwesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,24 +54,35 @@
     <!-- CSS Custom -->
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
+            --mcd-red: #DA291C;
+            --mcd-yellow: #FFC72C;
+            --mcd-dark: #27251F;
+            --mcd-light: #FFFFFF;
         }
 
         body {
             background-color: #f4f4f4;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
         }
 
         .navbar {
-            background-color: var(--primary-color);
-            padding: 15px 0;
+            background-color: var(--mcd-red);
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
-            color: white;
+            color: var(--mcd-yellow);
             font-weight: bold;
-            font-size: 24px;
+            font-size: 28px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
         }
 
         .nav-icons {
@@ -80,13 +91,14 @@
         }
 
         .login-link {
-            color: white;
+            color: var(--mcd-light);
             text-decoration: none;
             margin-right: 15px;
+            font-weight: 500;
         }
 
         .cart-icon {
-            color: white;
+            color: var(--mcd-light);
             font-size: 20px;
             position: relative;
         }
@@ -95,8 +107,8 @@
             position: absolute;
             top: -8px;
             right: -8px;
-            background-color: var(--accent-color);
-            color: white;
+            background-color: var(--mcd-yellow);
+            color: var(--mcd-dark);
             border-radius: 50%;
             width: 18px;
             height: 18px;
@@ -104,6 +116,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: bold;
         }
 
         .product-card {
@@ -113,11 +126,13 @@
             transition: transform 0.3s;
             margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            background-color: white;
+            background-color: var(--mcd-light);
+            border: 1px solid #f0f0f0;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(218, 41, 28, 0.2);
         }
 
         .product-img-container {
@@ -127,6 +142,7 @@
             justify-content: center;
             background-color: #f8f9fa;
             padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
 
         .product-img {
@@ -137,33 +153,71 @@
 
         .product-name {
             font-weight: 600;
-            color: var(--primary-color);
+            color: var(--mcd-dark);
             margin: 10px 0;
             height: 50px;
             overflow: hidden;
+            font-size: 16px;
         }
 
         .product-price {
-            color: var(--accent-color);
+            color: var(--mcd-red);
             font-weight: bold;
             font-size: 18px;
         }
 
         .btn-details, .btn-buy {
             width: 100%;
-            padding: 8px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 30px;
             margin-top: 10px;
             border: none;
             color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
         }
 
         .btn-details {
-            background-color: var(--secondary-color);
+            background-color: var(--mcd-dark);
+        }
+
+        .btn-details:hover {
+            background-color: #3a3833;
+            color: white;
         }
 
         .btn-buy {
-            background-color: var(--accent-color);
+            background-color: var(--mcd-yellow);
+            color: var(--mcd-dark);
+        }
+
+        .btn-buy:hover {
+            background-color: #ffb700;
+            color: var(--mcd-dark);
+        }
+
+        .page-title {
+            color: var(--mcd-red);
+            text-align: center;
+            margin: 30px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .mcd-footer {
+            background-color: var(--mcd-dark);
+            color: var(--mcd-light);
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .mcd-logo-text {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: bold;
+            font-size: 24px;
+            color: var(--mcd-yellow);
         }
     </style>
 </head>
@@ -172,7 +226,10 @@
 <!-- Header -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="inicio"><i class="fas fa-store"></i> Loja Virtual</a>
+        <a class="navbar-brand" href="inicio">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/1200px-McDonald%27s_Golden_Arches.svg.png" alt="McDonald's Logo">
+            <span class="mcd-logo-text">McDonald's</span>
+        </a>
         <div class="nav-icons">
             <a href="login.html" class="login-link">Faça login / Cadastre-se</a>
             <a href="carrinho.jsp" class="cart-icon">
@@ -183,8 +240,9 @@
     </div>
 </nav>
 
-<!-- Produtos -->
+<!-- Conteúdo Principal -->
 <div class="container my-5">
+    <h1 class="page-title">Nossos Produtos</h1>
     <div class="row">
         <% if (produtos != null && !produtos.isEmpty()) {
             for (Produto produto : produtos) { %>
@@ -208,21 +266,34 @@
                         <h5 class="product-name"><%= produto.getNome()%></h5>
                         <p class="product-price">R$ <%= String.format("%.2f", produto.getValor())%></p>
 
-                        <!-- BOTÃO DE DETALHES AJUSTADO -->
                         <a href="visualizar_produto_loja.jsp?id=<%= produto.getId()%>" class="btn btn-details">Ver Detalhes</a>
 
-                        <!-- BOTÃO COMPRAR -->
                         <button class="btn btn-buy" onclick="addToCart(<%= produto.getId()%>, '<%= produto.getNome()%>', <%= produto.getValor()%>, 1)">
-                            Comprar
+                            Comprar Agora
                         </button>
                     </div>
                 </div>
             </div>
         <% }} else { %>
-            <p class="text-center">Nenhum produto disponível no momento.</p>
+            <div class="col-12">
+                <p class="text-center">Nenhum produto disponível no momento.</p>
+            </div>
         <% } %>
     </div>
 </div>
+
+<!-- Rodapé -->
+<footer class="mcd-footer">
+    <div class="container text-center">
+        <p>© 2023 McDonald's. Todos os direitos reservados.</p>
+        <p>Siga-nos nas redes sociais:</p>
+        <div class="social-icons">
+            <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+        </div>
+    </div>
+</footer>
 
 <!-- Scripts -->
 <script>
@@ -245,7 +316,28 @@
 
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
-        alert('Produto adicionado ao carrinho!');
+        
+        // Notificação estilo McDonald's
+        const notification = document.createElement('div');
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = '#FFC72C';
+        notification.style.color = '#27251F';
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '30px';
+        notification.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        notification.style.zIndex = '1000';
+        notification.style.fontWeight = 'bold';
+        notification.innerHTML = `<i class="fas fa-check-circle"></i> ${nome} adicionado ao carrinho!`;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.transition = 'opacity 0.5s';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 500);
+        }, 3000);
     }
 
     document.addEventListener('DOMContentLoaded', updateCartCount);
